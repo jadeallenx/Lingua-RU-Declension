@@ -5,7 +5,7 @@ use warnings;
 
 package Lingua::RU::Declension;
 
-use Text::CSV qw(csv);
+use Text::CSV 1.91 qw(csv);
 use File::Share qw(dist_file);
 use Carp qw(confess);
 
