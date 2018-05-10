@@ -4,7 +4,7 @@ Lingua::RU::Declension - Decline Russian pronouns, adjectives and nouns
 
 # VERSION
 
-version 0.002
+version 0.003
 
 # SYNOPSIS
 
