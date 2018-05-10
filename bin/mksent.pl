@@ -24,6 +24,8 @@ use utf8;
 
 use Lingua::RU::Declension;
 
+binmode STDOUT, ":utf8";
+
 die "Supply a case\n" if ( scalar @ARGV < 1 );
 
 my $rus = Lingua::RU::Declension->new();
