@@ -30,6 +30,13 @@ my $case = $ARGV[0];
 my $plural = defined $ARGV[1] ? 1 : 0;
 my $arrow = charnames::string_vianame("RIGHTWARDS ARROW"); # →
 
+sub cju {
+    my ($type, $word) = @_;
+    my $endpoint = $type eq "noun" ? "run" : "rua";
+
+    return "https://www.cooljugator.com/$endpoint/$word";
+}
+
 my $rus = Lingua::RU::Declension->new();
 
 my @out;
@@ -52,7 +59,9 @@ for (1..50) {
     my $dn = $rus->decline_noun($noun, $case, $plural);
 
     my $front = "$np $na $nn ($case)";
-    my  $back = "$dp $da $dn<br>$np $arrow $dp ($pronoun)<br>$na $arrow $da ($adj)<br>$nn $arrow $dn ($noun)";
+    my $adj_url = cju("adj", $adj);
+    my $noun_url = cju("noun", $noun);
+    my  $back = qq|$dp $da $dn<br>$np $arrow $dp ($pronoun)<br>$na $arrow $da (<a href="$adj_url">$adj</a>)<br>$nn $arrow $dn (<a href="$noun_url">$noun</a>)|;
     push @out, [$front, $back];
 }
 
