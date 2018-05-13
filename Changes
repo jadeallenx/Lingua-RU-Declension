@@ -1,6 +1,8 @@
 Revision history for Lingua-RU-Declension
 
 {{$NEXT}}
+
+0.004       2018-05-12
             Add все and то to data files
             Add Cooljugator links to the slides
 
