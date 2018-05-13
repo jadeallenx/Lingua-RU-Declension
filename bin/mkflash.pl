@@ -34,7 +34,7 @@ sub cju {
     my ($type, $word) = @_;
     my $endpoint = $type eq "noun" ? "run" : "rua";
 
-    return "https://www.cooljugator.com/$endpoint/$word";
+    return "https://cooljugator.com/$endpoint/$word";
 }
 
 my $rus = Lingua::RU::Declension->new();
