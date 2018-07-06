@@ -27,20 +27,13 @@ binmode STDOUT, ":utf8";
 die "Supply a case\n" if (scalar @ARGV < 1);
 
 my $case = $ARGV[0];
-my $plural = defined $ARGV[1] ? 1 : 0;
+my $plural = defined $ARGV[1] ? "plural" : 0;
 my $arrow = charnames::string_vianame("RIGHTWARDS ARROW"); # →
 
-sub cju {
-    my ($type, $word) = @_;
-    my $endpoint = $type eq "noun" ? "run" : "rua";
-
-    return qq|<a href="https://cooljugator.com/$endpoint/$word">$word</a>|;
-}
-
-sub forvo {
+sub opr {
     my ($word) = @_;
 
-    return qq|<a href="https://www.forvo.com/search/$word/">$word</a>|;
+    return qq|<a href="https://en.openrussian.org/ru/$word/">$word</a>|;
 }
 
 my $rus = Lingua::RU::Declension->new();
@@ -65,11 +58,12 @@ for (1..50) {
     my $dn = $rus->decline_noun($noun, $case, $plural);
 
     my $front = "$np $na $nn ($case)";
-    my $adj_url = cju("adj", $adj);
-    my $noun_url = cju("noun", $noun);
-    my $answer = join " ", (map {; forvo($_) } ($dp, $da, $dn));
+    my $adj_url = opr($adj);
+    my $noun_url = opr($noun);
+    my $answer = join " ", (map {; opr($_) } ($dp, $da, $dn));
     my $back = qq|$answer<br>$np $arrow $dp ($pronoun)<br>$na $arrow $da ($adj_url)<br>$nn $arrow $dn ($noun_url)|;
     push @out, [$front, $back];
 }
 
-csv( in => \@out, out => "${case}_flash.csv", encoding => "UTF-8" );
+my $outname = $plural ? "plural_${case}_flash.csv" : "${case}_flash.csv";
+csv( in => \@out, out => $outname, encoding => "UTF-8" );
