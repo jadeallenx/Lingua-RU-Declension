@@ -30,10 +30,16 @@ my $case = $ARGV[0];
 my $plural = defined $ARGV[1] ? "plural" : 0;
 my $arrow = charnames::string_vianame("RIGHTWARDS ARROW"); # →
 
+sub forvo {
+    my ($word) = @_;
+
+    return qq|<a href="https://www.forvo.com/search/$word/">$word</a>|;
+}
+
 sub opr {
     my ($word) = @_;
 
-    return qq|<a href="https://en.openrussian.org/ru/$word/">$word</a>|;
+    return qq|<a href="https://en.openrussian.org/ru/$word">$word</a>|;
 }
 
 my $rus = Lingua::RU::Declension->new();
@@ -58,10 +64,11 @@ for (1..50) {
     my $dn = $rus->decline_noun($noun, $case, $plural);
 
     my $front = "$np $na $nn ($case)";
+    my $pro_url = opr($pronoun);
     my $adj_url = opr($adj);
     my $noun_url = opr($noun);
-    my $answer = join " ", (map {; opr($_) } ($dp, $da, $dn));
-    my $back = qq|$answer<br>$np $arrow $dp ($pronoun)<br>$na $arrow $da ($adj_url)<br>$nn $arrow $dn ($noun_url)|;
+    my $answer = join " ", (map {; forvo($_) } ($dp, $da, $dn));
+    my $back = qq|$answer<br>$np $arrow $dp ($pro_url)<br>$na $arrow $da ($adj_url)<br>$nn $arrow $dn ($noun_url)|;
     push @out, [$front, $back];
 }
 
